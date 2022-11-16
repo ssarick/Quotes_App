@@ -49,36 +49,47 @@
           <v-icon> mdi-pencil </v-icon>
           <v-tooltip activator="parent" location="top">Edit</v-tooltip>
         </v-btn>
-        <v-btn
-          size="small"
-          icon
-          color="black"
-          @click="$emit('deleteQuote', quote.id)"
-        >
+        <v-btn size="small" icon color="black" @click="confirmDelete = true">
           <v-icon> mdi-delete </v-icon>
           <v-tooltip activator="parent" location="top">Delete</v-tooltip>
         </v-btn>
       </div>
     </v-card-actions>
-    <AddQuote
+    <EditQuote
       mode="edit"
       :data="quote"
       :dialog="dialog"
       @cancel="dialog = false"
       @edit="editQuote"
     />
+    <v-dialog
+      v-model="confirmDelete"
+      :width="$vuetify.display.smAndUp ? '30%' : '100%'"
+      persistent
+    >
+      <v-card class="rounded-xl pa-2">
+        <v-card-text> Do you want to DELETE this Quote? </v-card-text>
+        <v-card-actions class="d-flex justify-end">
+          <v-btn @click="confirmDelete = false"> Cancel </v-btn>
+          <v-btn color="error" @click="$emit('deleteQuote', quote.id)">
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
-import AddQuote from "@/components/Post/AddQuote";
+import EditQuote from "@/components/Post/AddQuote";
 
 export default {
   name: "Post-Index",
-  components: { AddQuote },
+  components: { EditQuote },
   data: () => ({
     search: false,
     dialog: false,
+    confirmDelete: false,
   }),
   props: {
     quote: {

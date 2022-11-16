@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     v-model="dialogMutate"
+    transition="dialog-top-transition"
     :width="$vuetify.display.smAndUp ? '50%' : '100%'"
     activator="parent"
     persistent

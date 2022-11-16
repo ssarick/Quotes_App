@@ -1,11 +1,11 @@
 <template>
   <v-app :theme="theme">
-    <v-app-bar elevation="0" class="pa-5">
+    <div>
       <v-container class="d-flex justify-space-between align-center">
         <NavigationBar />
       </v-container>
-    </v-app-bar>
-    <v-main class="mt-10">
+    </div>
+    <v-main>
       <v-container id="content">
         <router-view />
       </v-container>

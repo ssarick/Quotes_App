@@ -1,9 +1,14 @@
 <template>
-  <v-row>
-    <v-col class="d-flex align-center">
+  <v-row class="flex-column flex-lg-row">
+    <v-col
+      lg="6"
+      sm="12"
+      xs="12"
+      class="d-flex justify-lg-start justify-center align-center"
+    >
       <NavigationLogo />
     </v-col>
-    <v-col class="d-flex align-center">
+    <v-col lg="6" sm="12" xs="12" class="d-flex align-center">
       <NavigationMenu />
     </v-col>
   </v-row>

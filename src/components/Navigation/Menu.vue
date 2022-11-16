@@ -2,7 +2,7 @@
   <div class="d-flex align-end align-center w-100 justify-end">
     <Transition name="slide-fade">
       <v-text-field
-        v-if="isSearch"
+        v-if="isSearch || $vuetify.display.mdAndDown"
         v-model="search"
         clearable
         label="Search"
@@ -11,10 +11,16 @@
         @input="filter"
       ></v-text-field>
     </Transition>
-    <v-btn icon size="x-large" @click="isSearch = !isSearch">
+    <v-btn
+      v-if="$vuetify.display.mdAndUp"
+      icon
+      elevation="0"
+      size="x-large"
+      @click="isSearch = !isSearch"
+    >
       <v-icon> mdi-magnify</v-icon>
     </v-btn>
-    <v-btn icon size="x-large" @click="dialog = true">
+    <v-btn icon elevation="0" size="x-large" @click="dialog = true">
       <v-icon>mdi-plus</v-icon>
       <v-tooltip activator="parent" location="right">Add Quote</v-tooltip>
     </v-btn>

@@ -30,10 +30,10 @@ export default {
     ...mapActions(["DELETE_QUOTE", "EDIT_QUOTE", "FETCH_QUOTE"]),
     deleteQuote(val) {
       this.DELETE_QUOTE(val);
+      this.FETCH_QUOTE();
     },
     editQuote(val) {
       this.EDIT_QUOTE(val);
-      this.FETCH_QUOTE();
     },
   },
 };

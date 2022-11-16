@@ -40,7 +40,10 @@ export default createStore({
       let list;
       if (search) {
         list = context.state.list.filter(({ author, text }) => {
-          return author.includes(search) || text.includes(search);
+          return (
+            author.toLowerCase().includes(search.toLowerCase()) ||
+            text.toLowerCase().includes(search.toLowerCase())
+          );
         });
       } else list = context.state.list;
       context.commit("FETCH_QUOTE", list);
