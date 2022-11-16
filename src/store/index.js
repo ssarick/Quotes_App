@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import { dataCreator } from "@/mixins/helpers";
 
 export default createStore({
   state: {
@@ -20,43 +21,48 @@ export default createStore({
         dateUpdate: null,
       },
     ],
+    filteredList: [],
   },
   getters: {
-    GET_QUOTES: (state) => state.list,
+    GET_QUOTES: (state) => state.filteredList,
   },
   actions: {
     ADD_QUOTE: (context, data) => {
-      console.log(data);
       context.commit("ADD_QUOTE", data);
     },
     DELETE_QUOTE: (context, data) => {
       context.commit("DELETE_QUOTE", data);
     },
     EDIT_QUOTE: (context, data) => {
-      console.log(data);
       context.commit("EDIT_QUOTE", data);
+    },
+    FETCH_QUOTE: (context, search) => {
+      let list;
+      if (search) {
+        list = context.state.list.filter(({ author, text }) => {
+          return author.includes(search) || text.includes(search);
+        });
+      } else list = context.state.list;
+      context.commit("FETCH_QUOTE", list);
     },
   },
   mutations: {
     ADD_QUOTE: (state, data) => {
-      const newQuote = {
-        id: "id" + Math.random().toString(16).slice(2),
-        text: data.text,
-        author: data.author,
-        genre: data.genre,
-        dateCreate: new Date().toLocaleString(),
-        dateUpdate: data.dateUpdate,
-      };
-      state.list.unshift(newQuote);
+      state.list.unshift(dataCreator(data));
     },
     DELETE_QUOTE: (state, id) => {
-      state.list.splice(state.list.map((post) => post.id).indexOf(id), 1);
+      state.list.splice(
+        state.list.findIndex((post) => post.id === id),
+        1
+      );
     },
     EDIT_QUOTE: (state, val) => {
       state.list = state.list.map((post) =>
         post.id === val.id ? { ...val } : post
       );
     },
+    FETCH_QUOTE: (state, search) => {
+      state.filteredList = search;
+    },
   },
-  modules: {},
 });

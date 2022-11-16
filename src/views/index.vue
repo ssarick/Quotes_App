@@ -2,7 +2,7 @@
   <v-row>
     <v-col
       cols="12"
-      md="4"
+      md="6"
       sm="6"
       class="d-flex align-stretch"
       v-for="(quote, index) in GET_QUOTES"
@@ -10,8 +10,8 @@
     >
       <PostIndex
         :quote="quote"
-        @deleteQuote="this.deleteQuote"
-        @editQuote="this.editQuote"
+        @deleteQuote="deleteQuote"
+        @editQuote="editQuote"
       />
     </v-col>
   </v-row>
@@ -27,12 +27,13 @@ export default {
     ...mapGetters(["GET_QUOTES"]),
   },
   methods: {
-    ...mapActions(["DELETE_QUOTE", "EDIT_QUOTE"]),
+    ...mapActions(["DELETE_QUOTE", "EDIT_QUOTE", "FETCH_QUOTE"]),
     deleteQuote(val) {
       this.DELETE_QUOTE(val);
     },
     editQuote(val) {
       this.EDIT_QUOTE(val);
+      this.FETCH_QUOTE();
     },
   },
 };

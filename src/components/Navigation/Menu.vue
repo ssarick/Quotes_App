@@ -2,26 +2,23 @@
   <div class="d-flex align-end align-center w-100 justify-end">
     <Transition name="slide-fade">
       <v-text-field
-        v-if="search"
+        v-if="isSearch"
+        v-model="search"
         clearable
         label="Search"
         hide-details
         variant="outlined"
+        @input="filter"
       ></v-text-field>
     </Transition>
-    <v-btn icon size="x-large" @click="search = !search">
+    <v-btn icon size="x-large" @click="isSearch = !isSearch">
       <v-icon> mdi-magnify</v-icon>
     </v-btn>
     <v-btn icon size="x-large" @click="dialog = true">
       <v-icon>mdi-plus</v-icon>
       <v-tooltip activator="parent" location="right">Add Quote</v-tooltip>
     </v-btn>
-    <AddQuote
-      :mode="'add'"
-      :dialog="dialog"
-      @cancel="this.cancelQuote"
-      @add="this.addQuote"
-    />
+    <AddQuote :dialog="dialog" @cancel="cancelQuote" @add="addQuote" />
   </div>
 </template>
 
@@ -34,17 +31,25 @@ export default {
   components: { AddQuote },
 
   data: () => ({
-    search: false,
+    search: null,
+    searchInterval: null,
+    isSearch: false,
     dialog: false,
   }),
   methods: {
-    ...mapActions(["ADD_QUOTE"]),
+    ...mapActions(["ADD_QUOTE", "FETCH_QUOTE"]),
     addQuote(val) {
-      console.log(val);
+      this.dialog = true;
       this.ADD_QUOTE(val);
     },
     cancelQuote(val) {
       this.dialog = val;
+    },
+    filter(val) {
+      if (this.searchInterval) clearTimeout(this.searchInterval);
+      this.searchInterval = setTimeout(() => {
+        this.FETCH_QUOTE(val.target.value);
+      }, 500);
     },
   },
 };

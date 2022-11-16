@@ -30,30 +30,30 @@
       </div>
     </v-card-text>
     <v-card-actions class="px-6 pb-6 justify-space-between">
-      <div class="d-flex">
+      <div class="d-flex flex-wrap">
         <v-btn
           v-for="(g, index) in quote.genre"
           :key="index + quote.genre"
           size="small"
           class="text--primary d-flex"
           variant="plain"
-          >#{{ g }}</v-btn
-        >
+          >#{{ g }}
+        </v-btn>
       </div>
       <div>
         <v-btn size="small" icon color="error">
           <v-icon> mdi-heart </v-icon>
           <v-tooltip activator="parent" location="top">Like</v-tooltip>
         </v-btn>
-        <v-btn @click="this.editQuote(quote)" size="small" icon color="black">
+        <v-btn @click="editQuote(quote)" size="small" icon color="black">
           <v-icon> mdi-pencil </v-icon>
           <v-tooltip activator="parent" location="top">Edit</v-tooltip>
         </v-btn>
         <v-btn
-          @click="$emit('deleteQuote', quote.id)"
           size="small"
           icon
           color="black"
+          @click="$emit('deleteQuote', quote.id)"
         >
           <v-icon> mdi-delete </v-icon>
           <v-tooltip activator="parent" location="top">Delete</v-tooltip>
@@ -61,11 +61,11 @@
       </div>
     </v-card-actions>
     <AddQuote
-      :mode="'edit'"
+      mode="edit"
       :data="quote"
       :dialog="dialog"
-      @cancel="this.cancelQuote"
-      @edit="this.editQuote"
+      @cancel="dialog = false"
+      @edit="editQuote"
     />
   </v-card>
 </template>
@@ -90,10 +90,6 @@ export default {
     editQuote(val) {
       this.dialog = true;
       this.$emit("editQuote", val);
-      console.log(val);
-    },
-    cancelQuote(val) {
-      this.dialog = val;
     },
   },
 };
